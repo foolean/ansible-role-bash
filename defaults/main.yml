@@ -1,0 +1,20 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+# bash_skel_ssh_config
+#   Array of lines to be placed in the default .ssh/config
+#   (default: undef)
+bash_skel_ssh_config: undef
+
+# bash_tmout
+#   Set the default shell timeout
+#   (default: 900) Ref: CIS
+bash_tmout: '900'
+
+# bash_umask
+#   Set the default file creation mode mask
+#   (default: 027) Ref: CIS
+bash_umask: '027'
+

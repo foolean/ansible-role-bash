@@ -1,0 +1,23 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+# We put the entire role in a block so we can create
+# a role specific tag, which saves the caller from
+# having to do so in their playbook.
+- name: Role foolean/bash
+  block:
+
+  - name: CIS | Configure umask and tmout
+    become: true
+    ansible.builtin.template:
+      src: 'etc/profile.d/bash.sh.j2'
+      dest: '/etc/profile.d/bash.sh.conf'
+      owner: 'root'
+      group: 'root'
+      mode: '0644'
+
+  # Tags to be applied to this role (block)
+  tags:
+    - 'role_foolean_bash'

@@ -1,0 +1,13 @@
+# Display date/time stamp in history output
+export HISTTIMEFORMAT="%Y-%m-%d %T  "
+
+# CIS Ensure default user umask is 027 or more restrictive (Scored)
+umask {{ bash_umask }}
+
+# CIS: Ensure default user shell timeout is 900 seconds or less (Scored)
+{% if bash_tmout != None %}
+TMOUT={{ bash_tmout }}
+{% else %}
+#TMOUT=900
+{% endif %}
+
