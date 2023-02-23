@@ -17,4 +17,3 @@ bash_tmout: '900'
 #   Set the default file creation mode mask
 #   (default: 027) Ref: CIS
 bash_umask: '027'
-
