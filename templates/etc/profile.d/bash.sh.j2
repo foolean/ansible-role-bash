@@ -7,6 +7,8 @@ umask {{ bash_umask }}
 # CIS: Ensure default user shell timeout is 900 seconds or less (Scored)
 {% if bash_tmout != None %}
 TMOUT={{ bash_tmout }}
+readonly TMOUT
+export TMOUT
 {% else %}
 #TMOUT=900
 {% endif %}

@@ -13,10 +13,20 @@
     become: true
     ansible.builtin.template:
       src: 'etc/profile.d/bash.sh.j2'
-      dest: '/etc/profile.d/bash.sh.conf'
+      dest: '/etc/profile.d/bash.sh'
       owner: 'root'
       group: 'root'
       mode: '0644'
+
+  - name: CIS | Configure umask
+    become: true
+    ansible.builtin.replace:
+      path: "{{ item }}"
+      regexp: "umask\\s+([0-7][0-7][01][0-7]\\b|[0-7][0-7][0-7][0-6]\\b|[0-7][01][0-7]\\b|[0-7][0-7][0-6])"
+      replace: "umask 027"
+    with_items:
+      - '/etc/bashrc'
+      - '/etc/profile'
 
   # Tags to be applied to this role (block)
   tags:
