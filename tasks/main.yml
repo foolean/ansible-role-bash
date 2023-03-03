@@ -9,24 +9,29 @@
 - name: Role foolean/bash
   block:
 
-  - name: CIS | Configure umask and tmout
-    become: true
-    ansible.builtin.template:
-      src: 'etc/profile.d/bash.sh.j2'
-      dest: '/etc/profile.d/bash.sh'
-      owner: 'root'
-      group: 'root'
-      mode: '0644'
+    - name: Set OS variables
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      with_first_found:
+        - "{{ ansible_os_family|lower }}.yml"
+        - "default.yml"
 
-  - name: CIS | Configure umask
-    become: true
-    ansible.builtin.replace:
-      path: "{{ item }}"
-      regexp: "umask\\s+([0-7][0-7][01][0-7]\\b|[0-7][0-7][0-7][0-6]\\b|[0-7][01][0-7]\\b|[0-7][0-7][0-6])"
-      replace: "umask 027"
-    with_items:
-      - '/etc/bashrc'
-      - '/etc/profile'
+    - name: CIS | Configure umask and tmout
+      become: true
+      ansible.builtin.template:
+        src: 'etc/profile.d/bash.sh.j2'
+        dest: '/etc/profile.d/bash.sh'
+        owner: 'root'
+        group: 'root'
+        mode: '0644'
+
+    - name: CIS | Configure umask
+      become: true
+      ansible.builtin.replace:
+        path: "{{ item }}"
+        regexp: "umask\\s+([0-7][0-7][01][0-7]\\b|[0-7][0-7][0-7][0-6]\\b|[0-7][01][0-7]\\b|[0-7][0-7][0-6])"
+        replace: "umask 027"
+      with_items: "{{ bash_config_files }}"
 
   # Tags to be applied to this role (block)
   tags:
